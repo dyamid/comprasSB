@@ -62,7 +62,7 @@ header("location: ../index.php");
 }
 if(isset($_GET["doc"])&& $_GET["doc"]!=''){
     $vBarras = array("/", "\\"); 	
-    $sDirectorio = 'C:/wamp/www/compras/archivos_compras/PROVEEDORES/'; 
+    $sDirectorio = __DIR__ . '/archivos_compras/PROVEEDORES/'; 
     //$sDirectorio = '/pruebas/rein/archivos/'; 
 	//$sUrlDescargas = $_SERVER["DOCUMENT_ROOT"].$sDirectorio;
 	$sDocumento = $sDirectorio.str_replace($vBarras, "_", $_GET["doc"]); 

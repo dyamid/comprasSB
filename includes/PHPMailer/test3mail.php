@@ -14,22 +14,22 @@ require("class.smtp.php");
 
 
 $mail = new PHPMailer(); //Crea la clase
-$mail->From = "correo@sanboni.edu.co"; //Email pop3 que envía el email
+$mail->From = "correo@sanboni.edu.co"; //Email pop3 que envï¿½a el email
 $mail->FromName = "hola prueba prueba"; //De parte de quien se ve el correo
 $mail->Host = "smtp.gmail.com"; //El nombre de tu servidor de salida SMTP
-$mail->Port = 587; //El puerto a utilizar para envíos. En México usualmente Infinitum bloquea el puerto 25, el alterno es el 587
-$mail->Mailer = "smtp"; //El protocolo para envíos a usar
-$mail->AddAddress("manuelf0710@gmail.com"); //La dirección de emai a la cual envías
+$mail->Port = 587; //El puerto a utilizar para envï¿½os. En Mï¿½xico usualmente Infinitum bloquea el puerto 25, el alterno es el 587
+$mail->Mailer = "smtp"; //El protocolo para envï¿½os a usar
+$mail->AddAddress("manuelf0710@gmail.com"); //La direcciï¿½n de emai a la cual envï¿½as
 $mail->Subject = "el asunto del mail"; //Asunto del email
 $mail->Body = "todo el cuerpo del mensaje"; //Cuerpo del mensaje de email
 
 $mail->SMTPAuth = "true";
-$mail->Username = "correo@sanboni.edu.co"; //Un usuario válido de correo en el servidor SMTP
-$mail->Password = "septiembre14"; //Un password válido del usuario en el servidor SMTP
+$mail->Username = "correo@sanboni.edu.co"; //Un usuario vï¿½lido de correo en el servidor SMTP
+$mail->Password = "Sanboni2022"; //Un password vï¿½lido del usuario en el servidor SMTP
 
-if(!$mail->Send()){ //Revisa el resultado del envío
+if(!$mail->Send()){ //Revisa el resultado del envï¿½o
 echo "There was an error sending the message"; //Escribe el error en caso que no se haya enviado bien el correo
-exit; //Sale del s_cript sin ejecutar el resto del código siguiente
+exit; //Sale del s_cript sin ejecutar el resto del cï¿½digo siguiente
 }?>
 </body>
 </html>

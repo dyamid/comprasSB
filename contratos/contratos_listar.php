@@ -1,5 +1,6 @@
 <?php
-include('../conexion/db.php');
+define('BASE_PATH', __DIR__);
+include(BASE_PATH . '/../conexion/db.php');
 
 	if (!isset($_SESSION)) {
   session_start();

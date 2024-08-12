@@ -103,7 +103,7 @@ $mail->isSMTP();                                      // Gestor de correo config
 $mail->Host = 'smtp.gmail.com';                       // Especifique los servidores principales y de respaldo SMTP
 $mail->SMTPAuth = true;                               // Habilitar la autenticación SMTP
 $mail->Username = 'compras@sanboni.edu.co';           // nombre de usuario SMTP
-$mail->Password = 'septiembre14';                     // contraseña SMTP 
+$mail->Password = 'Sanboni2022';                     // contraseña SMTP 
 $mail->SMTPSecure = 'ssl';                            // Habilitar el cifrado TLS, `también ssl` aceptado
 $mail->Port = 465;                                    // Puerto TCP para conectarse a
 

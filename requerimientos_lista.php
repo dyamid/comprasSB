@@ -439,7 +439,7 @@ if ($pageNum_RsListaRequerimientos == $totalPages_RsListaRequerimientos) {
 							<?php } ?>
 							<td>Estado</td>
 							<td>Fecha</td>
-							<td>Encuesta</td>
+							<td>Encuesta </td>
 							<td>Detalles</td>
 							<td width="300">Descripcion</td>
 							<td width="200">Alertas</td>
@@ -456,7 +456,8 @@ if ($pageNum_RsListaRequerimientos == $totalPages_RsListaRequerimientos) {
 							}
 							?>
 							<tr CLASS="<?php echo ($estilo); ?>" height="30">
-								<td class="tdcontent">
+						<!-- Acciones -->	
+							<td class="tdcontent">
 									<?php
 									if (($row_RsListaRequerimientos['ESTADO'] > 2) && $rolID == 2) {
 										?>
@@ -472,26 +473,43 @@ if ($pageNum_RsListaRequerimientos == $totalPages_RsListaRequerimientos) {
 									}
 									?>
 								</td>
+								<!-- Codigo Requerimiento -->
 								<td class="tdcontent">
 									<?php echo ($row_RsListaRequerimientos['CODIGO_REQUERIMIENTO']); ?>
 								</td>
-								<?php if ($rolID != 4) {
+	                            <!-- Area -->
+									<?php if ($rolID != 4) {
+										?>
+										<td class="tdcontent">
+											<?php echo ($row_RsListaRequerimientos['AREA_DES']); ?>
+										</td>
+									<?php }
 									?>
-									<td class="tdcontent">
-										<?php echo ($row_RsListaRequerimientos['AREA_DES']); ?>
-									</td>
-								<?php }
-								?>
+								<!-- Estado -->
 								<td class="tdcontent" bgcolor="<?php echo ($row_RsListaRequerimientos['COLOR']); ?>">
 									<?php echo ($row_RsListaRequerimientos['ESTADO_DES']); ?>
 								</td>
+								<!-- Fecha -->
 								<td class="tdcontent">
 									<?php echo ($row_RsListaRequerimientos['FECHA']); ?>
 								</td>
-								<td> </td>
+								<!--  	Encuesta -->
+								<td>
+									<?php if ($row_RsListaRequerimientos['ENCUESTA'] > 0 && $row_RsListaRequerimientos['RESPUESTA_ENC'] == 0) {
+										?>
+										<a target="_blank" href="encuesta/#/enc/<?php echo ($row_RsListaRequerimientos['ENCUESTA']); ?>">Ir a Encuesta</a>
+										<?php
+									}
+									if ($row_RsListaRequerimientos['RESPUESTA_ENC'] == 1) {
+										?>
+										encuesta realizada
+										<?php
+									}
+									?>
+								</td>
+								<!--  Detalles Catidad -->	
 								<td align="center">
-
-									<?php
+																		<?php
 									require_once ("scripts/funcionescombo.php");
 									$estados = dameTotalDetalles($row_RsListaRequerimientos['CODIGO']);
 									foreach ($estados as $indice => $registro) {
@@ -499,29 +517,15 @@ if ($pageNum_RsListaRequerimientos == $totalPages_RsListaRequerimientos) {
 									}
 									?>
 								</td>
-								<?php
-								require_once ("scripts/funcionescombo.php");
-								$estados = dameTotalEstadosDetalles($row_RsListaRequerimientos['CODIGO']);
-								?>
+								<!--  Detalles Descripción-->	
 								<td >
 									<?php echo ($row_RsListaRequerimientos['DESCRIPCION_DETALLE']); ?>
 								</td>
-
-
-
-								<!-- <td>
-						 <?php if ($row_RsListaRequerimientos['ENCUESTA'] > 0 && $row_RsListaRequerimientos['RESPUESTA_ENC'] == 0) {
-							 ?>
-							 <a target="_blank" href="encuesta/#/enc/<?php echo ($row_RsListaRequerimientos['ENCUESTA']); ?>">Ir a Encuesta</a>
-							 <?php
-						 }
-						 if ($row_RsListaRequerimientos['RESPUESTA_ENC'] == 1) {
-							 ?>
-							 encuesta realizada
-							 <?php
-						 }
-						 ?>
-						</td>-->
+                                 <!--  Alertas-->	
+									<?php
+									require_once ("scripts/funcionescombo.php");
+									$estados = dameTotalEstadosDetalles($row_RsListaRequerimientos['CODIGO']);
+									?>
 								<td>
 									<?php foreach ($estados as $indice => $registro) { ?>
 										<div style='background-color: <?php echo ($registro['COLOR']); ?>;'>

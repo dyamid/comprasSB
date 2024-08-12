@@ -64,7 +64,7 @@ if(isset($_GET["doc"])&& $_GET["doc"]!=''){
     $vBarras = array("/", "\\"); 	
     //$sDirectorio = '//175.176.0.6/compras/'; 
     //$sDirectorio = '/pruebas/rein/archivos/'; 
-    $sDirectorio = 'C:/wamp/www/compras/archivos_usuario_g/'; 
+    $sDirectorio = __DIR__ . '/archivos_usuario_g/';
 	//$sUrlDescargas = $_SERVER["DOCUMENT_ROOT"].$sDirectorio;
 	$sDocumento = $sDirectorio.str_replace($vBarras, "_", $_GET["doc"]); 
     echo($sDocumento);

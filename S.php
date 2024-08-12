@@ -403,8 +403,9 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 	
     //$rutaArchivos = 'D:/DIEGO/PELIGRO AREA DE TRABAJO/wamp/www/compras/archivos_compras/ORDENES/'.$nombre_archivo;
     //$rutaArchivos='A:/wamp/www/SANBONIFACIO/compras/archivos_compras/ORDENES/'.$nombre_archivo;
-	$rutaArchivos='C:/wamp/www/compras/archivos_compras/ORDENES/'.$nombre_archivo;
-	
+	//$rutaArchivos='C:/wamp/www/compras/archivos_compras/ORDENES/'.$nombre_archivo;
+	$rutaArchivos = __DIR__ . '/archivos_compras/ORDENES/' . $nombre_archivo;
+
 	
 	//$pdf->Output($rutaArchivos.'.pdf', 'F');
 	//$p= (string)$row_RsDetallesCompra['PROVCODI'];

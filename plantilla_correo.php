@@ -100,7 +100,7 @@ require_once('conexion/db.php');
 										<td align="justify">
 										<font color="#666666">
 										Ante cualquier inquietud, puede comunicarse con el encargado  del Proceso de 
-										Contrataci&oacute;n - KAROL VILLALOBOS, en el tel&#233;fono 2770770 
+										Contrataci&oacute;n - KAREN FRANCO RINCON, en el tel&#233;fono 2770770 
 										Ext.116 &#243; 3115383277, o   email   compras@sanboni.edu.co, quien le 
 										brindar&#225; su acompa&#241;amiento y asesor&#237;a 
 										necesaria.
@@ -145,8 +145,9 @@ require_once('conexion/db.php');
 	$cuerpo=$inicio_html.$head.$body_abre.$cabeza.$tronco.$pies.$body_cierra.$fin_html ;
 
 // Configuracion de envio correo electronico	
+define('BASE_PATH', __DIR__);
+require BASE_PATH . '/includes/PHPMailer/PHPMailerAutoload.php';
 
-	require 'C:/laragon/www/compras/includes/PHPMailer/PHPMailerAutoload.php';
 
 	$mail = new PHPMailer;
 

@@ -185,7 +185,7 @@ necesaria.
 		$mail->Username = "compras@sanboni.edu.co";  // SMTP username
 		//$mail->Password = "mc501234"; // SMTP password	
 		//$mail->Password = $_SESSION['MM_GMAIL']; // SMTP password
-        $mail->Password = 'septiembre14';
+        $mail->Password = 'Sanboni2022';
         $_SESSION['MM_GMAIL'] = 'gatuelo';
 		$mail->From = "compras@sanboni.edu.co";
 		$mail->FromName = "PORTAL DE COMPRAS - COLEGIO SAN BONIFACIO";

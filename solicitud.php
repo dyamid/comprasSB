@@ -2013,8 +2013,9 @@ function PasaEstadoDetalle (det,est){
 					codigo: <span id="msgaddeventolistado" class="msgaddevento"><?php echo($codigo_evento);?></span>						
 					</div>
 						<div id="multiplesdetalles" style="display: none;margin-left: 10px;float: left;"><button type="button" class="btn btn-default">Cargar un archivo a multiples detalles</button></div>
-						<button id="markAllReceived" style="padding: 8px;margin-left:10px;"> <img src="imagenes/entregado.png" width="16"  title="Entregado" >Recibido</button>
-
+						<?php if($_SESSION['MM_RolID']== 2){ ?>
+						<button id="markAllReceived" style="padding: 8px;margin-left:10px;"> <img src="imagenes/entregado.png" width="16"  title="Entregado" > Entregar Todos</button>
+						<?php } ?>
 					</th>
 					<?php if($_SESSION['MM_RolID']== 2){
                         $colorbandera=0;

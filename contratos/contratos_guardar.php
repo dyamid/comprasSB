@@ -56,7 +56,7 @@ if ($tipoGuardar == 'Guardar'){
  	$RsCrearInsercion = mysqli_query($conexion,$query_RsCrearInsercion) or die(mysqli_error($conexion));	
 	
 	$nombre_carpeta=$contrato_numero;
-	$ruta = 'C:/wamp64/www/SistemaCompras/contratos/bodega/';
+	$ruta = __DIR__ . '/../contratos/bodega/';
 	$carpeta=$ruta.$nombre_carpeta;
 	if (!file_exists($carpeta)) {
 		mkdir($carpeta, 0777, true);

@@ -37,9 +37,9 @@ $query_RsProveedor = "SELECT `COTIORDE` ORDEN,
 
 
 if($cotizacion != ''){
-				    $nombre_completo	= "KAROL VILLALOBOS"; //" $row_RsRol['NOMBRE'] Nombre a quien va dirigido"
+				    $nombre_completo	= "KAREN FRANCO RINCON"; //" $row_RsRol['NOMBRE'] Nombre a quien va dirigido"
 					$asunto				="Llego nueva cotizacion- Compras";// lo que se desae en asunto
-					$dirigido 			= "karol.villalobos@sanboni.edu.co";//$row_RsRol['CORREO'] Correo a quien se va a enviar
+					$dirigido 			= "compras@sanboni.edu.co";//$row_RsRol['CORREO'] Correo a quien se va a enviar
 					$imagen_cabecera	='compras.sanboni.edu.co/imagenes/9.png';//imagen de cabecera
 					$RutaArchivoAdjunto =''; //ruta del archivo adjunto
 					$tema               ='Por Favor, se solicita muy amablemente revisar la nueva Cotizacion de '.$row_RsProveedor['NOMBRE'].' a través

@@ -68,8 +68,7 @@ if (PHP_SAPI == 'cli')
 	die('This example should only be run from a Web Browser');
 
 /** Include PHPExcel */
-//require_once dirname(__FILE__) . '\..\includes\PHPExcel.php';
-//require_once('C:/wamp64/www/SistemaCompras/includes/PHPExcel/PHPExcel.php');
+
 require_once('../includes/PHPExcel/PHPExcel.php');
 
 // Create new PHPExcel object

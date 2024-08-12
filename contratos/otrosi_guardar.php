@@ -124,8 +124,7 @@ if ($tipoGuardar == 'cargar_otrosi')
 
 if ($tipoGuardar == 'Archivo_Cargar')
 {
- 	$rutaArchivos = 'C:/wamp64/www/SistemaCompras/contratos/bodega/';
-	
+ 	$rutaArchivos = __DIR__ . '/../contratos/bodega/';
 
 	if (is_uploaded_file($_FILES['archivo1']['tmp_name']))
 	{

@@ -22,32 +22,38 @@ if(isset($_GET['codorden']) && $_GET['codorden'] !=''){
  $codorden = $_GET['codorden'];
 }
 
-    function criterio($c){
- 
+function criterio($c) {
     $resultado = false;
-	include('conexion/db.php');
-    $query_RsCriterio="SELECT CRMEDESC NOMBRE
-							FROM criterio_medicion, 
-								 criterio, 
-								 tipo_criterio 
-							WHERE   CRMETICR=CRITCONS 
-							AND     TICRID=CRITTICR
-							AND     CRMECONS='".$c."'
-									  ";
-						  //echo($query_RsCriterio);
-	 
-	
-    $RsCriterio = mysqli_query($conexion,$query_RsCriterio) or die(mysqli_error($conexion));
-	$row_RsCriterio = mysqli_fetch_array($RsCriterio);
-	$totalRows_RCriterio = mysqli_num_rows($RsCriterio);
-	
-	
-		$resultado=$row_RsCriterio['NOMBRE'];
-	
-	
-	
-	return $resultado;
-	}
+    include('conexion/db.php');
+    
+    $query_RsCriterio = "
+        SELECT CRMEDESC NOMBRE
+        FROM criterio_medicion, criterio, tipo_criterio
+        WHERE CRMETICR = CRITCONS 
+        AND TICRID = CRITTICR
+        AND CRMECONS = '".$c."'
+    ";
+    
+    $RsCriterio = mysqli_query($conexion, $query_RsCriterio) or die(mysqli_error($conexion));
+    
+    if ($RsCriterio) {
+        $totalRows_RCriterio = mysqli_num_rows($RsCriterio);
+        
+        if ($totalRows_RCriterio > 0) {
+            $row_RsCriterio = mysqli_fetch_array($RsCriterio);
+            $resultado = $row_RsCriterio['NOMBRE'];
+        } else {
+            // No se encontraron filas
+            $resultado = "No se ha ingresado cotización de este proveedor aún."; // Valor por defecto
+        }
+    } else {
+        // Error en la consulta
+        $resultado = "Error en la consulta";
+    }
+    
+    return $resultado;
+}
+
 $arraytipocompra = array();	
 	$query_RsTipoOrdenCompra = "SELECT T.TOCOCODI CODIGO,
 									   T.TOCONOMB NOMBRE
@@ -435,18 +441,12 @@ background: none repeat scroll 0 0 #706D6D;
 	
     if($totalRows_RsListaRequerimientos >0){
 	 ?>
-	   <div class="jumbotron" style="width:450px;"> 
+	   <div class="jumbotron" style="width:100%; padding-top: 10px; padding-bottom: 10px;"> 
 			<div class="row">
-				<div class="col-md-2">Codigo Orden</div>
-				<div class="col-md-2"><?php echo($row_RsListaRequerimientos['CODIGO_ORDEN']);?></div>
-			</div>
-			<div class="row">
-				<div class="col-md-2">Estado</div>
-				<div class="col-md-2"><?php echo($row_RsListaRequerimientos['ESTADO_DES']);?></div>
-			</div>
-			<div class="row">
-				<div class="col-md-2">Fecha Creacion</div>
-				<div class="col-md-2"><?php echo($row_RsListaRequerimientos['FECHA_CREACION']);?></div>
+				<div class="col-md-2"> <label>Codigo Orden:</label> <?php echo($row_RsListaRequerimientos['CODIGO_ORDEN']);?></div>					
+				<div class="col-md-2"><label>Estado:</label> <?php echo($row_RsListaRequerimientos['ESTADO_DES']);?></div>				
+				<div class="col-md-8"><label>Fecha Creacion:</label> <?php echo($row_RsListaRequerimientos['FECHA_CREACION']);?></div>
+				<div class=""></div>
 			</div>
       </div>
 		
@@ -504,22 +504,16 @@ if(count($arraytabs)>0){
 for($k=0; $k<count($arraytabs); $k++){
 ?>
 <div id="provcodord_<?php echo($arraytabs[$k]['PROVEEDOR']);?>" class="tab-pane" style="width:950px;">
-
-   <div class="form-group">
-    <label  class="col-md-2 control-label">Codigo:</label>
-    <div class="col-lg-10">
-   <label  class="col-md-4 control-label"><?php echo($CODIGOCOTIZACION.$arraytabs[$k]['COTIZACION']);?></label>
-    </div>
+<div style="padding: 10px;">
+   <div class="row">     
+    <div  class="col-md-12"><label>Codigo:</label> <?php echo($CODIGOCOTIZACION.$arraytabs[$k]['COTIZACION']);?></div>   
   </div>
-  
-    <div class="form-group">
-    <label  class="col-md-2 control-label">Estado:</label>
-    <div class="col-lg-10">
-   <label  class="col-md-4 control-label"><span id="estadocotizacion_<?php echo($arraytabs[$k]['COTIZACION']);?>"><?php echo($arraytabs[$k]['ESTADO_DE']);?></span></label>
-    </div>
+  <div class="row">     
+    <div  class="col-md-12"><label>Estado:</label><span id="estadocotizacion_<?php echo($arraytabs[$k]['COTIZACION']);?>"> <?php echo($arraytabs[$k]['ESTADO_DE']);?></span></div>   
   </div>
-	   <br>
- <table class="table table-bordered table-hover" width="800">
+  </div>
+	   
+ <table class="table table-bordered table-hover" width="1000px">
  <thead>
   <tr class="">
     <td>Cantidad</td>
@@ -543,9 +537,9 @@ for($k=0; $k<count($arraytabs); $k++){
 	<td><?php echo($arrayreqprov[$j]['U_MEDIDA']);?></td>
     <td><?php echo($arrayreqprov[$j]['NOMBRE']);?></td>
     <td><?php echo($arrayreqprov[$j]['ALIAS']);?></td>
-	<td>$<?php echo($arrayreqprov[$j]['VALOR_UNT']);?></td>
+	<td>$<?php echo number_format($arrayreqprov[$j]['VALOR_UNT'], 2, ',', '.');?></td>
 	<td>%<?php echo($arrayreqprov[$j]['VALOR_POR']);?></td>
-	<td>$<?php echo($arrayreqprov[$j]['VALOR_TOTAL']);?></td>
+	<td>$<?php echo number_format($arrayreqprov[$j]['VALOR_TOTAL'], 2, ',', '.');?></td>
 	<td>
 	<?php 
 		// if($arraytabs[$k]['ESTADO_D']!=''){
@@ -575,7 +569,10 @@ for($k=0; $k<count($arraytabs); $k++){
   ?>
   <tr>
   <td colspan="6">Valor Total</td>
-  <td >$<?php echo($arraytabs[$k]['TOTAL']);?></td>
+  <td colspan="3" style="text-align: left; padding: 10px; border: 1px solid #ddd;">
+    $ <strong><?php echo number_format($arraytabs[$k]['TOTAL'], 2, ',', '.'); ?></strong>
+</td>
+
  </tr>
  </table>
  
@@ -592,54 +589,34 @@ for($k=0; $k<count($arraytabs); $k++){
  
 
  ?>
-  <div class="row">
-	   <div class="form-group">
-		<label  class="col-md-3 control-label">Forma De Pago:</label>
-		<div class="col-lg-9">
-	   <label  class="col-md-9 control-label"><?php  echo($forma_pago);?></label>
-		</div>
-	  </div>
+  <div class="row" style="padding-top:10px;">		
+			<div class="col-md-2"><label>Forma De Pago:</label></div>
+			<div class="col-md-10"><?php  echo($forma_pago);?></div>			
   </div>
-   <div class="row">
-   <div class="form-group">
-    <label  class="col-md-3 control-label">Garantia:</label>
-    <div class="col-lg-9">
-   <label  class="col-md-9 control-label"><?php  echo($garantia);?></label>
-    </div>
+  <div class="row" style="padding-top:5px;">		
+			<div class="col-md-2"><label>Garantia:</label></div>
+			<div class="col-md-10"><?php  echo($garantia);?></div>			
   </div>
+  <div class="row" style="padding-top:5px;">		
+			<div class="col-md-2"><label>Sitio de Entrega:</label></div>
+			<div class="col-md-10"><?php echo($sitio_entrega);?></div>			
   </div>
-   <div class="row">
-    <div class="form-group">
-    <label  class="col-md-4 control-label">Sitio de Entrega:</label>
-    <div class="col-lg-8">
-   <label  class="col-md-8 control-label"><?php echo($sitio_entrega);?></label>
-    </div>
+   <div class="row" style="padding-top:5px;">		
+			<div class="col-md-2"><label>Tiempo / Entrega:</label></div>
+			<div class="col-md-10"><?php echo($tiempo_entrega);?></div>			
   </div>
-  </div>
-   <div class="row">
-  <div class="form-group">
-    <label  class="col-md-4 control-label">Tiempo de Entrega:</label>
-    <div class="col-lg-8">
-   <label  class="col-md-8 control-label"><?php echo($tiempo_entrega);?></label>
-    </div>
-  </div>
-  </div>
-  <div class="row">
-   <div class="form-group">
-    <label  class="col-md-3 control-label">Observaciones:</label>
-    <div class="col-lg-9">
-	<textarea class="form-control" rows="3"><?php  echo($ob);?></textarea>
-  
-    </div>
-  </div>
+  <div class="row" style="padding-top:5px;">		
+			<div class="col-md-2"><label>Observaciones:</label></div>
+			<div class="col-md-10"><textarea class="form-control" rows="2"><?php  echo($ob);?></textarea></div>			
   </div>
   <br>
   <div class="row">
   	<div class="col-md-5">
-	 <span id="infoformaenviado_<?php echo($arraytabs[$k]['COTIZACION']);?>" class="<?php if($arraytabs[$k]['FORMA_ENVIO']!=''){ ?>alert alert-danger<?php } ?>">
+	 <span 	id="infoformaenviado_<?php echo($arraytabs[$k]['COTIZACION']);?>" 
+	 		class="<?php if($arraytabs[$k]['FORMA_ENVIO']!=''){ ?>alert alert-danger<?php } ?>">
 	 <?php 
 	 if($arraytabs[$k]['FORMA_ENVIO']!=''){
-		 echo('registro enviado de forma: <b>'.$arraytabs[$k]['FORMA_ENVIO_DES'].'</b>');
+		 echo('Enviado de forma: <b>'.$arraytabs[$k]['FORMA_ENVIO_DES'].'</b>');
 	 }
 	 ?>
 	</span>
@@ -648,35 +625,28 @@ for($k=0; $k<count($arraytabs); $k++){
    <br>
    
   <div class="row">
-   <div class="col-md-2" style="width:10%;">
-	<input type="button" class="btn btn-sm btn-primary" value="Enviar correo" onclick="enviarcorreo('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');">
-  </div>
-   <div class="col-md-2" style="width:11%;">
-	<input type="button" class="btn btn-sm btn-primary" value="Reenviar correo" onclick="enviarcorreo('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');">
-  </div>
-   <div class="col-md-2" style="width:50%;">	   
-   <input type="button" class="btn btn-sm btn-primary" value="Llenar Manual Productos" onclick="Vmanual('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');">
-  </div>
-    <div class="col-md-2" style="width:10%;">	   
-   <input type="button" class="btn btn-sm btn-primary" value="Llenar Manual servicios" onclick="Vmanualservi('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');">
-  </div>
-   <div class="col-md-2" style="width:10%;">	   
-   <input type="button" class="btn btn-sm btn-primary" value="Llenar Manual Trabajos" onclick="Vmanualtrab('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');">
-  </div>  
-  <div class="col-md-1" style="width:10%;">
-	<input type="button" class="btn btn-sm btn-primary" value="  Listo  " onclick="listocotizado('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');">
-  </div>
+   <div class="col-md-12">
+	<span><input type="button" class="btn btn-sm btn-primary" value="Enviar correo" onclick="enviarcorreo('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');"></span>
+	<span><input type="button" class="btn btn-sm btn-primary" value="Reenviar correo" onclick="enviarcorreo('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');"></span>
+    <span><input type="button" class="btn btn-sm btn-primary" value="Llenar Manual Productos" onclick="Vmanual('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');"></span>  
+	<span><input type="button" class="btn btn-sm btn-primary" value="Llenar Manual servicios" onclick="Vmanualservi('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');"></span> 
+    <span><input type="button" class="btn btn-sm btn-primary" value="Llenar Manual Trabajos" onclick="Vmanualtrab('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');"></span>
+    <span><input type="button" class="btn btn-sm btn-primary previsualizar" value="Previsualizar" data-prov="<?php echo($arraytabs[$k]['PROVEEDOR']);?>"></span>
+	<span><input type="button" class="btn btn-sm btn-primary" value="  Listo  " onclick="listocotizado('<?php echo($codorden);?>','<?php echo($arraytabs[$k]['PROVEEDOR']);?>','<?php echo($arraytabs[$k]['COTIZACION']);?>');"></span>    
+</div>
+ 
+ 
   
     <div class="col-md-2"style="width:10%;">
-   <input type="button" class="btn btn-sm btn-primary previsualizar" value="Previsualizar" data-prov="<?php echo($arraytabs[$k]['PROVEEDOR']);?>">
+   
      </div>
 	<span id="spanmsgprov_<?php echo($arraytabs[$k]['PROVEEDOR']);?>" style="color:#4d9911; display:none; background:#fffdc1; padding:5px;">correo enviado</span>
 
      
 
-    <!-- Modal HTML -->
+     <!-- Modal HTML -->
 
-    <div id="myModal_<?php echo($arraytabs[$k]['PROVEEDOR']);?>" class="modal fade">
+     <div id="myModal_<?php echo($arraytabs[$k]['PROVEEDOR']);?>" class="modal fade">
 
         <div class="modal-dialog">
 
@@ -692,94 +662,88 @@ for($k=0; $k<count($arraytabs); $k++){
 
                 <div class="modal-body">
 
-<table width='100%'>
-	<tr>
-		<td width='613'>
-		<table width='100%' border='0'>
-		  <tr>
-			<td width='41%'></td>
-			<td width='59%'>&nbsp;</td>
-		  </tr>
-		  <tr>
-			<td colspan='2'><h2>Reciba un cordial saludo de parte de la Corporaci&oacute;n  Colegio San Bonifacio de las lanzas:</h2></td>
-		  </tr>
-		  <tr>
-		    <td colspan=''><h2><small>Se&ntilde;or(a)</small></h2></td>
-		  </tr>
-		   <tr>
-		    <td colspan=''><h2><small>NOMBRE DEL PROVEEDOR</small></h2></td>
-		  </tr>
-		</table>
-		<br>
-		<br>
-		<p class="text-justify"><strong>Por Favor, se solicita muy amablemente cotizar los siguientes items atravez del PORTAL WEB DE COMPRAS de la  Corporaci&oacute;n  Colegio San Bonifacio de las lanzas: </strong></p>
-		 <br>
-		</td>
-	</tr>
-</table>			                   
+		<table width='100%'>
+			<tr>
+				<td width='613'>
+				<table width='100%' border='0'>
+				<tr>
+					<td width='41%'></td>
+					<td width='59%'>&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan='2'><h2>Reciba un cordial saludo de parte de la Corporaci&oacute;n  Colegio San Bonifacio de las lanzas:</h2></td>
+				</tr>
+				<tr>
+					<td colspan=''><h2><small>Se&ntilde;or(a)</small></h2></td>
+				</tr>
+				<tr>
+					<td colspan=''><h2><small>NOMBRE DEL PROVEEDOR</small></h2></td>
+				</tr>
+				</table>
+				<br>
+				<br>
+				<p class="text-justify"><strong>Por Favor, se solicita muy amablemente cotizar los siguientes items atravez del PORTAL WEB DE COMPRAS de la  Corporaci&oacute;n  Colegio San Bonifacio de las lanzas: </strong></p>
+				<br>
+				</td>
+			</tr>
+		</table>			                   
 								  
 								   <table class="table table-bordered table-hover" width="500">
- <thead>
- <h2><small>Articulos A Cotizar</small></h2>
-  <tr class="">
-    <td>Cantidad</td>
-    <td>Articulo</td>    
-  </tr>
- </thead>
-<?php
-  for($j=0; $j<count($arrayreqprov); $j++){ 
-   if($arraytabs[$k]['PROVEEDOR']==$arrayreqprov[$j]['PROVEEDOR']){
- ?>
-  <tr>
-    <td><?php echo($arrayreqprov[$j]['CANTIDAD']);?></td>
-    <td><?php echo($arrayreqprov[$j]['NOMBRE']);?></td>	
-  </tr>
- <?php
-   }
-}
-  ?>
- </table>
+		<thead>
+		<h2><small>Articulos A Cotizar</small></h2>
+		<tr class="">
+			<td>Cantidad</td>
+			<td>Articulo</td>    
+		</tr>
+		</thead>
+		<?php
+		for($j=0; $j<count($arrayreqprov); $j++){ 
+		if($arraytabs[$k]['PROVEEDOR']==$arrayreqprov[$j]['PROVEEDOR']){
+		?>
+		<tr>
+			<td><?php echo($arrayreqprov[$j]['CANTIDAD']);?></td>
+			<td><?php echo($arrayreqprov[$j]['NOMBRE']);?></td>	
+		</tr>
+		<?php
+		}
+		}
+		?>
+		</table>
 				
 			  <br>
 			  <p><strong>Favor cotizar ingresando  al siguiente link:</strong></p>
 		<p><a href='#'>INGRESAR A COTIZAR</a></p>
 			 
-  <p class="text-justify  text-warning"><small>Ante cualquier inquietud, puede comunicarse con la encargada del Proceso de 
-Contrataci&oacute;n - EDNA CONSUELO CARVAJAL OYUELA, en el teléfono 2670226 Ext.116 ó 311 538 3277, 
-o email edna.carvajal@sanboni.edu.co, quien le brindará su acompañamiento y asesoría 
-necesaria.
-<br> <br>
- 
-Cordialmente,  
- <br><br>
- 
- EDNA CONSUELO CARVAJAL OYUELA<br>
-Asistente Administrativa y de Compras<br>
-CORPORACION COLEGIO SAN BONIFACIO DE LAS LANZAS<br>
-Avenida Ambalá-Hacienda El Vergel
- </small></p>
+		<p class="text-justify  text-warning"><small>Ante cualquier inquietud, puede comunicarse con la encargada del Proceso de 
+		Contrataci&oacute;n - KAREN FRANCO RINCON, en el teléfono 2670226 Ext.116 ó 311 538 3277, 
+		o email compras@sanboni.edu.co, quien le brindará su acompañamiento y asesoría 
+		necesaria.
+		<br> <br>
+		
+		Cordialmente,  
+		<br><br>
+		
+		KAREN FRANCO RINCON<br>
+		Asistente Administrativa y de Compras<br>
+		CORPORACION COLEGIO SAN BONIFACIO DE LAS LANZAS<br>
+		Avenida Ambalá-Hacienda El Vergel
+		</small></p>
 
-                 
+						
 
-                </div>
+						</div>
 
-                <div class="modal-footer">
+						<div class="modal-footer">
 
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
 
-                </div>
+						</div>
 
-            </div>
+					</div>
 
-        </div>
+				</div>
 
-    </div>
-
-
-    
-
-
-  
+     </div> 
  
 
    </div>
