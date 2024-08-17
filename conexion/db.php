@@ -6,7 +6,7 @@ $database = "bdcompras";
 $username = "root";
 $password = "";
 
-//S4nv0n1f4c10 prueba prueba 2
+//S4nv0n1f4c10 prueba prueba 2 prueba
 
 // Ejecución de la conexion a base de datos
 $conexion = mysqli_connect($hostname, $username,$password,$database); 
